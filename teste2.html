@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Calculadora de preços</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      form {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      input {
+        padding: 5px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 5px 10px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #3E8E41;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Calculadora de preços</h1>
+    <form>
+      <label for="custoProduto">Custo do produto:</label>
+      <input type="number" id="custoProduto" name="custoProduto">
+      <button type="button" onclick="calcular()">Calcular</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Opção</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaResultados">
+      </tbody>
+    </table>
+    <script>
+      function calcular() {
+        const custoProduto = document.getElementById("custoProduto").value;
+        const precos = calcularPrecos(custoProduto);
+        const tabelaResultados = document.getElementById("tabelaResultados");
+        tabelaResultados.innerHTML = `
+          <tr>
+            <td>À vista</td>
+            <td>R$ ${precos.vista.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Parcelado em 3x</td>
+            <td>R$ ${precos.parcelado3x.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Parcelado em 6x</td>
+            <td>R$ ${precos.parcelado6x.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Parcelado em 10x</td>
+            <td>R$ ${precos.parcelado10x.toFixed(2)}</td>
+          </tr>
+        `;
+      }
+      
+      function calcularPrecos(custoProduto) {
+        const taxaLucro = 0.2; // 20% de lucro
+        const taxaJuros3x = 1.1; // 10% de juros para parcelamento em 3x
+        const taxaJuros6x = 1.25; // 25% de juros para parcelamento em 6x
+        const taxaJuros10x = 1.3; // 30% de juros para

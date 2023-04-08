@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Calculadora de preços</title>
+  </head>
+  <body>
+    <h1>Calculadora de preços</h1>
+    <form>
+      <label for="custoProduto">Custo do produto:</label>
+      <input type="number" id="custoProduto" name="custoProduto">
+      <button type="button" onclick="calcular()">Calcular</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Opção</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaResultados">
+      </tbody>
+    </table>
+    <script>
+      function calcular() {
+        const custoProduto = document.getElementById("custoProduto").value;
+        const precos = calcularPrecos(custoProduto);
+        const tabelaResultados = document.getElementById("tabelaResultados");
+        tabelaResultados.innerHTML = `
+          <tr>
+            <td>À vista</td>
+            <td>R$ ${precos.vista.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Parcelado em 3x</td>
+            <td>R$ ${precos.parcelado3x.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Parcelado em 6x</td>
+            <td>R$ ${precos.parcelado6x.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Parcelado em 10x</td>
+            <td>R$ ${precos.parcelado10x.toFixed(2)}</td>
+          </tr>
+        `;
+      }
+      
+      function calcularPrecos(custoProduto) {
+        const taxaLucro = 0.2; // 20% de lucro
+        const taxaJuros3x = 1.1; // 10% de juros para parcelamento em 3x
+        const taxaJuros6x = 1.25; // 25% de juros para parcelamento em 6x
+        const taxaJuros10x = 1.3; // 30% de juros para parcelamento em 10x
+
+        // Calculando o valor de venda à vista
+        const precoVista = custoProduto * (1 + taxaLucro);
+
+        // Calculando o valor de venda parcelado em 3x
+        const preco3x = Math.ceil(custoProduto * taxaJuros3x * (1 + taxaLucro) / 3);
+
+        // Calculando o valor de venda parcelado em 6x
+        const preco6x = Math.ceil(custoProduto * taxaJuros6x * (1 + taxaLucro) / 6);
+
+        // Calculando o valor de venda parcelado em 10x
+        const preco10x = Math.ceil(custoProduto * taxaJuros10x * (1 + taxaLucro) / 10);
+
+        // Retornando um objeto com os preços calculados
+        return {
+          vista: precoVista,
+          parcelado3x: preco3x * 3,
+          parcelado6x: preco6x * 6,
+          parcelado10x: preco10x * 10,
+        };
+      }
+    </script>
+  </body
